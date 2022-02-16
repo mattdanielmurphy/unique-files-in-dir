@@ -20,21 +20,27 @@ let dirsRead = 0
 
 async function getFoldersWithout8Files(dir: string) {
 	const dirents = await readdir(dir, { withFileTypes: true })
-	console.log('==============================')
-	console.log('    DIRS WITHOUT 8 FILES:')
-	console.log('==============================')
-	console.log(' file name | number of files ')
-	console.log('------------------------------')
+	console.log(`===================================
+    DIRS WITHOUT 8 AUDIO FILES:
+===================================
+ file name | number of audio files 
+-----------------------------------`)
+
 	for (const dirent of dirents) {
 		const res = resolve(dir, dirent.name)
 
 		if (dirent.isDirectory()) {
-			const files = await readdir(res)
-			if (files.length !== 8) {
+			const allFiles = await readdir(res)
+			const audioFiles = allFiles.filter(
+				(file) =>
+					!file.startsWith('.') &&
+					(file.endsWith('.wav') || file.endsWith('.mp3')),
+			)
+			if (audioFiles.length !== 8) {
 				console.log(
-					' ' + dirent.name.slice(0, 9),
-					' '.repeat(9 + 1 - dirent.name.slice(0, 9).length),
-					files.length,
+					' ' + dirent.name.slice(0, 9), //?  limit name length
+					' '.repeat(9 + 1 - dirent.name.slice(0, 9).length), //?  add remainder of spaces for slice
+					audioFiles.length,
 				)
 			}
 		}
