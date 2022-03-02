@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "tsnd --respawn --watch dev dev/index.ts",
+    "ts": "tsnd --respawn --watch dev",
     "build": "tsc"
   },
   "dependencies": {},
